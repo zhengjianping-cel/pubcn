@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sample Scanner</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="https://cdn.jsdelivr.net/npm/jsqr@1.4.0/dist/jsQR.min.js"></script>
+</head>
+<body>
+    <div id="loginContainer" class="container">
+        <h1>Sample Scanner</h1>
+        <h2>用户登录</h2>
+        
+        <form id="loginForm" class="login-form">
+            <div class="form-group">
+                <label for="userId">UserID</label>
+                <input type="text" id="userId" name="userId" required placeholder="请输入UserID">
+            </div>
+            
+            <div class="form-group">
+                <label for="password">Password</label>
+                <input type="password" id="password" name="password" required placeholder="请输入密码">
+            </div>
+            
+            <button type="submit" class="login-btn">
+                <span class="btn-icon">🔐</span>
+                <span class="btn-text">登录</span>
+            </button>
+        </form>
+        
+        <div id="loginError" class="error-message"></div>
+    </div>
+
+    <div id="scannerContainer" class="container hidden">
+        <div class="header-row">
+            <h1>Sample Scanner</h1>
+            <button id="logoutBtn" class="logout-btn">退出</button>
+        </div>
+        <div class="user-row">
+            <span id="userName">用户</span>
+        </div>
+        
+        <div class="video-container">
+            <video id="video" autoplay playsinline></video>
+            <canvas id="canvas" style="display: none;"></canvas>
+            <div class="scan-line"></div>
+            <div class="corner-tl"></div>
+            <div class="corner-tr"></div>
+            <div class="corner-bl"></div>
+            <div class="corner-br"></div>
+        </div>
+
+        <div id="debugPanel" class="debug-panel" style="display: none;">
+            <div>识别状态: <span id="scanStatus">等待中</span></div>
+        </div>
+
+        <button id="scanBtn" class="scan-btn">
+            <span class="btn-icon">📷</span>
+            <span class="btn-text">开始扫描</span>
+        </button>
+
+        <div id="resultSection" class="result-section hidden">
+            <div id="resultContent" class="result-content"></div>
+            <div id="saveButtonContainer" class="save-button-container">
+                <button id="saveBtn" class="save-btn" onclick="saveData()">
+                    <span class="btn-icon">💾</span>
+                    <span class="btn-text">保存数据</span>
+                </button>
+            </div>
+        </div>
+        
+        <div id="addressModal" class="modal-overlay hidden">
+            <div class="modal-container">
+                <div class="modal-header">
+                    <h3>查找地址</h3>
+                    <button class="modal-close" onclick="closeAddressSearch()">✕</button>
+                </div>
+                <div class="modal-body">
+                    <input type="text" id="searchInput" class="search-input" placeholder="搜索地址或AddressID..." oninput="filterAddresses()">
+                    <div class="search-loading" id="searchLoading">加载中...</div>
+                    <div class="search-error" id="searchError"></div>
+                    <div class="address-list" id="addressList"></div>
+                    <div class="no-results" id="noResults" style="display:none;">未找到匹配的地址</div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="memo-section">
+            <h2>Scan History</h2>
+            <div id="memo" class="memo"></div>
+            <button id="clearBtn" class="clear-btn">清空记录</button>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
